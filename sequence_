@@ -1,0 +1,23 @@
+module seq_detector(Y,X,clk,reset); 
+input X,clk,reset ; 
+output Y; 
+wire D0,D1,Q0,Q1 ; 
+
+assign D1= (~X & ~Q1 & Q0) | (~X & Q1 & ~Q0); 
+assign D0= X | (Q1 & ~Q0); 
+assign Y= X & Q1 & Q0 ;
+
+d_flipflop dff1(Q0,D0,clk,reset);
+d_flipflop dff2(Q1,D1,clk,reset);
+endmodule 
+
+module d_flipflop(Q,D,clk,reset);
+input D,clk,reset; 
+output Q; 
+
+always @(posedge clk)
+if(reset) 
+  Q<=0;
+else 
+  Q<=D; 
+endmodule 
