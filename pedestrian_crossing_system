@@ -1,0 +1,79 @@
+module ped_crossing(timer, traffic_light, pedestrian_light, pedestrian_req, clk, rst);
+
+input pedestrian_req, clk, rst;
+output reg [1:0]traffic_light;
+output reg pedestrian_light;
+
+parameter green_time = 50;
+parameter yellow_time = 10;
+parameter walk_time = 30;
+parameter GREEN = 2'b00;
+parameter YELLOW = 2'b01;
+parameter RED = 2'b10;
+parameter WALK = 1'b1;
+parameter STOP = 1'b0;
+
+output reg [7:0]timer;
+reg pedestrian_request;
+
+initial
+begin
+  traffic_light = GREEN;
+  pedestrian_light = STOP;
+  timer = 0;
+  pedestrian_request = 0;
+end
+
+always@(posedge clk or posedge rst)
+begin
+  if(rst)
+  begin
+    traffic_light <= GREEN;
+    pedestrian_light <= STOP;
+    timer <= 0;
+    pedestrian_request <= 0;
+  end
+  else
+  begin
+    pedestrian_request <= pedestrian_req;  // Latch pedestrian request
+    
+    case(traffic_light)
+      GREEN:
+      begin
+        if(timer < green_time)
+          timer <= timer + 1;
+        else if(pedestrian_request)
+        begin
+          traffic_light <= YELLOW;
+          timer <= 0;
+        end
+      end
+
+      YELLOW:
+      begin
+        if(timer < yellow_time)
+          timer <= timer + 1;
+        else
+        begin
+          traffic_light <= RED;
+          timer <= 0;
+          pedestrian_light <= WALK;
+        end
+      end
+
+      RED:
+      begin
+        if(timer < walk_time)
+          timer <= timer + 1;
+        else
+        begin
+          pedestrian_light <= STOP;
+          traffic_light <= GREEN;
+          timer <= 0;
+        end
+      end
+    endcase
+  end
+end
+
+endmodule
