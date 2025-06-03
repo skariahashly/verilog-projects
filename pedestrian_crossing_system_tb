@@ -1,0 +1,31 @@
+module ped_crossing_tb;
+
+reg pedestrian_req, clk, rst;
+wire [1:0] traffic_light;
+wire pedestrian_light;
+wire [7:0] timer;
+
+ped_crossing dut(timer, traffic_light, pedestrian_light, pedestrian_req, clk, rst);
+
+initial
+begin
+  clk = 1'b0;
+  forever #1 clk = ~clk;
+end
+
+initial
+begin
+  rst = 1;
+  pedestrian_req = 0;  // Initialize pedestrian_req
+  #5 rst = 0; 
+  #10 pedestrian_req = 1;  // Apply pedestrian request after reset
+end
+
+initial
+begin
+  $monitor($time, "  Traffic Light = %b  Pedestrian Light = %b  clk = %b  timer = %d", 
+           traffic_light, pedestrian_light, clk, timer);
+  #200 $finish;
+end
+
+endmodule
