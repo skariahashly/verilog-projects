@@ -1,0 +1,25 @@
+module priorityenc_tb();
+reg [7:0]in ; 
+wire [2:0]y ; 
+wire valid ; 
+
+priority_encoder uut(y,valid,in);
+
+initial begin 
+#10 in = 8'b00000000;  //all inputs are low
+#10 in = 8'b00000001;  // LSB active
+#10 in = 8'b00000010;  // bit 1 active
+#10 in = 8'b00000100;  // bit 2 active
+#10 in = 8'b00001000;  // bit 3 active
+#10 in = 8'b00010000;  // bit 4 active
+#10 in = 8'b00100000;  // bit 5 active
+#10 in = 8'b01000000;  // bit 6 active
+#10 in = 8'b10000000;  // MSB active
+#10 in = 8'b11001010;  // priorityenc -> MSB active
+#50 $finish; 
+end 
+
+initial begin 
+$monitor("Time=%0t, in=%b , out=%b, valid=&b",$time,in,out,valid);
+end
+endmodule
