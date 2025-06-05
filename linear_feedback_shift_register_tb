@@ -1,0 +1,24 @@
+module LFSR_4bit_tb();
+reg clk,reset;
+wire [3:0]Q;
+
+LFSR_4bit uut (clk,reset,Q);
+
+initial begin
+clk=0;
+forever #10 clk=~clk;
+end
+
+initial begin 
+#10 reset = 0; 
+#50 reset = 1; 
+#20 reset = 0;
+#50 reset=1; 
+#100 $finish; 
+end
+
+initial begin 
+$monitor ("Time=0%t, Q=%b" , $time, Q);
+end
+
+endmodule
