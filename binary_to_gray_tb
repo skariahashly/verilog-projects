@@ -1,0 +1,18 @@
+module binary_to_gray_tb();
+reg [3:0]inp;
+wire [3:0]out;
+
+binary_to_gray uut (inp,out);
+
+initial begin 
+inp=4'b0000;
+#10 inp=4'b1000; 
+#10 inp=4'b0011; 
+#30 $finish;
+end
+
+initial begin 
+$monitor ("Time=0%t, inp=%b, out=%b" , $time, inp, out);
+end
+
+endmodule
