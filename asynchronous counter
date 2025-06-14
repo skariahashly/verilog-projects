@@ -1,0 +1,27 @@
+module asyn_counter(clk,rst,q,qo);
+input clk,rst; 
+output [3:0]q,qo;
+assign qo=~q;
+
+assign t=1;
+t_ff tff1(t,clk,rst,q0);
+t_ff tff2(t,q0,rst,q1);
+t_ff tff3(t,q1,rst,q2);
+t_ff tff4(t,q2,rst,q3);
+
+assign q={q3,q2,q1,q0};
+endmodule 
+
+module t_ff(t,clk,rst,q);
+input t,clk,rst ; 
+output reg q; 
+
+always @ (posedge clk or negedge rst) begin 
+if(!rst)
+    q<=0;
+else if (t)
+    q<=~q; 
+else 
+    q<=q;
+end
+endmodule 
