@@ -1,0 +1,23 @@
+module johnson_tb();
+reg clk,rst;
+wire [3:0]q;
+
+johnson_counter j1(clk,rst,q); 
+
+initial begin 
+clk=0; 
+forever #10 clk=~clk; 
+end
+
+initial begin 
+#5 rst=1;
+#30 rst=0;
+#90 rst=1; 
+$finish ;
+end
+
+initial begin 
+$monitor ("time=0%t , q=%b" , $time, q); 
+end 
+
+endmodule 
