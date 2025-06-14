@@ -1,0 +1,23 @@
+module asyn_counter_tb();
+reg clk,rst ; 
+wire [3:0]q,qo; 
+
+asyn_counter c1(clk,rst,q,qo);
+
+initial begin 
+clk=0;
+forever #5 clk=~clk; 
+end 
+
+initial begin 
+rst=1; 
+#50 rst=0;
+#120 rst=1; 
+$finish;
+end
+
+initial begin 
+$monitor ("time=%0t, q=%b, qo=%b", $time , q, qo);
+end
+
+endmodule
