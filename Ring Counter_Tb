@@ -1,0 +1,24 @@
+module ring_counter_tb();
+reg clk,prst ; 
+wire [3:0]q;
+
+ring_counter_dff d1(clk,prst,q);
+
+initial begin 
+clk=0;
+forever #10 clk=~clk;
+end 
+
+initial begin 
+prset=0;
+#50 prset=1;
+#100 prset=0;
+$finish;
+end 
+
+initial begin 
+$monitor ("time=0%t , prset=%b" , $time , prset);
+end
+
+endmodule 
+
