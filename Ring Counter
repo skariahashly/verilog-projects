@@ -1,0 +1,11 @@
+module ring_counter_dff(clk,prst,q);
+input clk,prst; 
+output reg [3:0]q; 
+
+always @(posedge clk) begin 
+if(!prst)
+    q=4'b0001;
+else 
+    q<={q[2:0], q[3]};
+end
+endmodule 
